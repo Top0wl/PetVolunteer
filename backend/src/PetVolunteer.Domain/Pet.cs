@@ -1,5 +1,3 @@
-using CSharpFunctionalExtensions;
-
 namespace PetVolunteer.Domain;
 
 public class Pet
