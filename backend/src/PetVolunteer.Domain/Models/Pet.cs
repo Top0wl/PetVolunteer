@@ -94,9 +94,43 @@ public class Pet
     {
         if (string.IsNullOrEmpty(name))
             return Result.Failure<Pet>($"Name is required.");
+        
+        if (string.IsNullOrEmpty(petType))
+            return Result.Failure<Pet>($"PetType is required.");
+        
+        if (string.IsNullOrEmpty(breed))
+            return Result.Failure<Pet>($"Breed is required.");
+        
+        if (string.IsNullOrEmpty(color))
+            return Result.Failure<Pet>($"Color is required.");
+        
+        if (string.IsNullOrEmpty(color))
+            return Result.Failure<Pet>($"Owner phone number is required.");
 
-        var pet = new Pet(id, ownerPhoneNumber, name, petType, description, breed, color, healthInformation, address,
-            petStatus, isCastrated, isVaccinated, weight, height, birthDate, createdDate);
+        if (weight <= 0)
+            return Result.Failure<Pet>($"Weight is not to be < 0");
+        
+        if (height <= 0)
+            return Result.Failure<Pet>($"Height is not to be < 0");
+
+        var pet = new Pet(
+            id, 
+            name, 
+            petType, 
+            description, 
+            breed, 
+            color, 
+            healthInformation, 
+            address,
+            ownerPhoneNumber,
+            petStatus, 
+            isCastrated, 
+            isVaccinated, 
+            weight, 
+            height, 
+            birthDate, 
+            createdDate);
+        
         return Result.Success(pet);
     }
 }

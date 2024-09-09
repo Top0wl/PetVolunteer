@@ -35,8 +35,15 @@ public class Volunteer
     {
     }
 
-    private Volunteer(Guid id, string firstName, string lastName, string surname, string email, string description,
-        string phoneNumber, int experience)
+    private Volunteer(
+        Guid id, 
+        string firstName, 
+        string lastName, 
+        string surname, 
+        string email, 
+        string description, 
+        string phoneNumber, 
+        int experience)
     {
         Id = id;
         FirstName = firstName;
@@ -60,22 +67,34 @@ public class Volunteer
     }
 
     public static Result<Volunteer> Create(
-        Guid id, 
-        string firstName, 
-        string lastName, 
-        string surname, 
+        Guid id,
+        string firstName,
+        string lastName,
+        string surname,
         string email,
-        string description, 
-        string phoneNumber, 
+        string description,
+        string phoneNumber,
         int experience)
     {
         if (string.IsNullOrEmpty(firstName))
             return Result.Failure<Volunteer>($"FirstName is required.");
+        
         if (string.IsNullOrEmpty(lastName))
             return Result.Failure<Volunteer>($"LastName is required.");
+        
         if (string.IsNullOrEmpty(email))
             return Result.Failure<Volunteer>($"Email is required.");
-        var volunteer = new Volunteer(id, firstName, lastName, surname, email, description, phoneNumber, experience);
+        
+        var volunteer = new Volunteer(
+            id, 
+            firstName, 
+            lastName, 
+            surname, 
+            email, 
+            description, 
+            phoneNumber, 
+            experience);
+        
         return Result.Success(volunteer);
     }
 }

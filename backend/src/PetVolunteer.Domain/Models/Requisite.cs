@@ -16,9 +16,12 @@ public class Requisite
     {
         if (string.IsNullOrEmpty(title))
             return Result.Failure<Requisite>($"Title is required.");
+        
         if (string.IsNullOrEmpty(description))
             return Result.Failure<Requisite>($"Description is required.");
+        
         var requisite = new Requisite(title, description);
+        
         return Result.Success(requisite);
     }
 }
