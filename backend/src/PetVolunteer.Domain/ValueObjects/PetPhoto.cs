@@ -4,8 +4,8 @@ namespace PetVolunteer.Domain.ValueObjects;
 
 public record PetPhoto
 {
-    public string Path { get; private set; } = default!;
-    public bool IsMain { get; private set; } = default!;
+    public string Path { get; }
+    public bool IsMain { get; }
 
     private PetPhoto(string path, bool isMain)
     {
