@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using PetVolunteer.Domain.Enums;
+using PetVolunteer.Domain.ValueObjects;
 
 namespace PetVolunteer.Domain.Models;
 
@@ -8,11 +9,12 @@ public class Pet
     #region Private Fields
     
     private readonly List<Requisite> _requisites = [];
-    
+    private readonly List<PetPhoto> _petPhotos = [];
+
     #endregion Private Fields
     
     #region Public Fields
-    public Guid Id { get; private set; }
+    public PetId Id { get; private set; }
     public string Name { get; private set; } = default!;
     public string PetType { get; private set; } = default!;
     public string Description { get; private set; } = default!;
@@ -29,6 +31,8 @@ public class Pet
     public DateTime BirthDate { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public IReadOnlyList<Requisite> Requisites => _requisites;
+    public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+    
     #endregion Public Fields
 
     #region Ctor
@@ -37,7 +41,7 @@ public class Pet
     {
     }
 
-    private Pet(Guid id,
+    private Pet(PetId id,
         string name,
         string petType,
         string description,
@@ -75,7 +79,7 @@ public class Pet
     #endregion
 
     public static Result<Pet> Create(
-        Guid id,
+        PetId id,
         string name,
         string petType,
         string description,

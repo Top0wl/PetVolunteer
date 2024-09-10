@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using PetVolunteer.Domain.Enums;
+using PetVolunteer.Domain.ValueObjects;
 
 namespace PetVolunteer.Domain.Models;
 
@@ -15,7 +16,7 @@ public class Volunteer
 
     #region Public Fields
 
-    public Guid Id { get; private set; }
+    public VolunteerId Id { get; private set; }
     public string FirstName { get; private set; } = default!;
     public string LastName { get; private set; } = default!;
     public string Surname { get; private set; } = default!;
@@ -36,7 +37,7 @@ public class Volunteer
     }
 
     private Volunteer(
-        Guid id, 
+        VolunteerId id, 
         string firstName, 
         string lastName, 
         string surname, 
@@ -67,7 +68,7 @@ public class Volunteer
     }
 
     public static Result<Volunteer> Create(
-        Guid id,
+        VolunteerId id,
         string firstName,
         string lastName,
         string surname,
