@@ -1,12 +1,11 @@
 using CSharpFunctionalExtensions;
 
-namespace PetVolunteer.Domain.Models;
+namespace PetVolunteer.Domain.ValueObjects;
 
-public class Requisite
+public record Requisite
 {
-    public string Title { get; private set; } = default!;
-    public string Description { get; private set; } = default!;
-    
+    public string Title { get; } = default!;
+    public string Description { get; } = default!;
     private Requisite(string title, string description)
     {
         Title = title;
