@@ -25,8 +25,8 @@ public class Volunteer
     public string Description { get; private set; } = default!;
     public string PhoneNumber { get; private set; } = default!;
     public int Experience { get; private set; } = default!;
-    public VolunteerRequisites Requisites { get; private set; } = default!;
-    public VolunteerSocialMedias SocialMedia { get; private set; } = default!;
+    public RequisitesList Requisites { get; private set; } = default!;
+    public SocialMediaList SocialMediaList { get; private set; } = default!;
     public IReadOnlyList<Pet> Pets => _pets;
 
     #endregion Public Fields

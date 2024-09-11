@@ -32,7 +32,7 @@ public class Pet
     public DateTime BirthDate { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public PetPhotos? Photos { get; private set; } = default!;
-    public PetRequisites? Requisites { get; private set; } = default!;
+    public RequisitesList? Requisites { get; private set; } = default!;
     
     #endregion Public Fields
 

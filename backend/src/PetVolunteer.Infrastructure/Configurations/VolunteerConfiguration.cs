@@ -10,7 +10,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 {
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
-        builder.ToTable("Volunteers");
+        builder.ToTable("volunteers");
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
@@ -44,7 +44,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             });
         });
         
-        builder.OwnsOne(p => p.SocialMedia, sm =>
+        builder.OwnsOne(p => p.SocialMediaList, sm =>
         {
             sm.ToJson();
             sm.OwnsMany(vsm => vsm.SocialMedias, b =>
