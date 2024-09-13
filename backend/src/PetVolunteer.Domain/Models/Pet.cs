@@ -5,17 +5,15 @@ using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 
 namespace PetVolunteer.Domain.Models;
 
-public class Pet
+public class Pet : Shared.Entity<PetId>
 {
     #region Private Fields
-    
-    private readonly List<Requisite> _requisites = [];
-    private readonly List<PetPhotos> _photos = [];
 
+    
+    
     #endregion Private Fields
     
     #region Public Fields
-    public PetId Id { get; private set; }
     public string Name { get; private set; } = default!;
     public string PetType { get; private set; } = default!;
     public string Description { get; private set; } = default!;
@@ -38,7 +36,7 @@ public class Pet
 
     #region Ctor
 
-    private Pet()
+    private Pet(PetId id) : base(id)
     {
     }
 
@@ -57,9 +55,9 @@ public class Pet
         double weight,
         double height,
         DateTime birthDate,
-        DateTime createdDate)
+        DateTime createdDate) 
+        : base(id)
     {
-        Id = id;
         Name = name;
         PetType = petType;
         Description = description;
