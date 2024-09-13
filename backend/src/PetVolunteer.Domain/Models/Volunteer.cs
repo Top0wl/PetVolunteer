@@ -5,19 +5,16 @@ using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 
 namespace PetVolunteer.Domain.Models;
 
-public class Volunteer
+public class Volunteer : Shared.Entity<VolunteerId>
 {
     #region Private Fields
-
-    private readonly List<Requisite> _requsites = [];
-    private readonly List<SocialMedia> _socialMedia = [];
+    
     private readonly List<Pet> _pets = [];
 
     #endregion Private Fields
 
     #region Public Fields
-
-    public VolunteerId Id { get; private set; }
+    
     public string FirstName { get; private set; } = default!;
     public string LastName { get; private set; } = default!;
     public string Surname { get; private set; } = default!;
@@ -33,7 +30,7 @@ public class Volunteer
 
     #region Ctor
 
-    private Volunteer()
+    private Volunteer(VolunteerId id) : base(id)
     {
     }
 
@@ -46,8 +43,8 @@ public class Volunteer
         string description, 
         string phoneNumber, 
         int experience)
+        : base (id)
     {
-        Id = id;
         FirstName = firstName;
         LastName = lastName;
         Surname = surname;
