@@ -1,11 +1,11 @@
 using CSharpFunctionalExtensions;
 
-namespace PetVolunteer.Domain.Models;
+namespace PetVolunteer.Domain.ValueObjects;
 
-public class SocialMedia
+public record SocialMedia
 {
-    public string Title { get; private set; } = default!;
-    public string Url { get; private set; } = default!;
+    public string Title { get; } = default!;
+    public string Url { get; } = default!;
     private SocialMedia(string title, string url)
     {
         Title = title;

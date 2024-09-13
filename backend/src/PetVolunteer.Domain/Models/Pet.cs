@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using PetVolunteer.Domain.Enums;
 using PetVolunteer.Domain.ValueObjects;
+using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 
 namespace PetVolunteer.Domain.Models;
 
@@ -9,7 +10,7 @@ public class Pet
     #region Private Fields
     
     private readonly List<Requisite> _requisites = [];
-    private readonly List<PetPhoto> _petPhotos = [];
+    private readonly List<PetPhotos> _photos = [];
 
     #endregion Private Fields
     
@@ -30,8 +31,8 @@ public class Pet
     public double Height { get; private set; }
     public DateTime BirthDate { get; private set; }
     public DateTime CreatedDate { get; private set; }
-    public IReadOnlyList<Requisite> Requisites => _requisites;
-    public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+    public PetPhotos? Photos { get; private set; } = default!;
+    public RequisitesList? Requisites { get; private set; } = default!;
     
     #endregion Public Fields
 
@@ -96,6 +97,7 @@ public class Pet
         DateTime birthDate,
         DateTime createdDate)
     {
+        
         if (string.IsNullOrEmpty(name))
             return Result.Failure<Pet>($"Name is required.");
         

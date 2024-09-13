@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using PetVolunteer.Domain.Enums;
 using PetVolunteer.Domain.ValueObjects;
+using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 
 namespace PetVolunteer.Domain.Models;
 
@@ -24,8 +25,8 @@ public class Volunteer
     public string Description { get; private set; } = default!;
     public string PhoneNumber { get; private set; } = default!;
     public int Experience { get; private set; } = default!;
-    public IReadOnlyList<Requisite> Requisites => _requsites;
-    public IReadOnlyList<SocialMedia> SocialMedia => _socialMedia;
+    public RequisitesList Requisites { get; private set; } = default!;
+    public SocialMediaList SocialMediaList { get; private set; } = default!;
     public IReadOnlyList<Pet> Pets => _pets;
 
     #endregion Public Fields
