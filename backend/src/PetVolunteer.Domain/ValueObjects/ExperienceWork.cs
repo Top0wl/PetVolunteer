@@ -5,11 +5,9 @@ namespace PetVolunteer.Domain.ValueObjects;
 public record ExperienceWork
 {
     public int Value { get; }
-
-    private ExperienceWork() { }
-    private ExperienceWork(int experienceWork)
+    private ExperienceWork(int value)
     {
-        Value = experienceWork;
+        Value = value;
     }
     
     public static Result<ExperienceWork> Create(int experienceWork)

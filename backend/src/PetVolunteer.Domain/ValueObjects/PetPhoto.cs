@@ -6,8 +6,7 @@ public record PetPhoto
 {
     public string Path { get; }
     public bool IsMain { get; }
-
-    private PetPhoto() { }
+    
     private PetPhoto(string path, bool isMain)
     {
         Path = path;

@@ -9,8 +9,7 @@ public record HealthInformation
     public bool IsCastrated { get; }
     public bool IsVaccinated { get; }
     public string AdditionalHealthInformation { get; }
-
-    private HealthInformation() { }
+    
     private HealthInformation(double weight, double height, bool isCastrated, bool isVaccinated, string additionalHealthInformation)
     {
         Weight = weight;

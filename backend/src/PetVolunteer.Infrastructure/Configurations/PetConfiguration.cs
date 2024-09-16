@@ -26,6 +26,10 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Description)
             .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
+        builder.Property(p => p.AnimalType)
+            .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+            .HasColumnName("animal_type");
+
         builder.ComplexProperty(p => p.Address, pb =>
         {
             pb.Property(a => a.City)
@@ -71,6 +75,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 b.Property(p => p.Path)
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                b.Property(p => p.IsMain);
             });
         });
         

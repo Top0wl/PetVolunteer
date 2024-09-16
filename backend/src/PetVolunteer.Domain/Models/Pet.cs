@@ -9,7 +9,7 @@ public class Pet : Shared.Entity<PetId>
 {
     #region Public Fields
     public string Name { get; private set; } = default!;
-    public AnimalType AnimalType { get; private set; } = default!;
+    public string AnimalType { get; private set; } = default!;
     public string Description { get; private set; } = default!;
     //TODO: Когда-то потом по заданиям появится новый класс...???
     public string Breed { get; private set; } = default!;
@@ -32,7 +32,7 @@ public class Pet : Shared.Entity<PetId>
 
     private Pet(PetId id,
         string name,
-        AnimalType animalType,
+        string animalType,
         string description,
         string breed,
         string color,
@@ -62,7 +62,7 @@ public class Pet : Shared.Entity<PetId>
     public static Result<Pet> Create(
         PetId id,
         string name,
-        AnimalType animalType,
+        string animalType,
         string description,
         string breed,
         string color,

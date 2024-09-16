@@ -6,9 +6,8 @@ public record FullName
 {
     public string LastName { get; } = default!;
     public string FirstName { get; } = default!;
-    public string Patronymic { get; } = default!;
-
-    private FullName() { }
+    public string? Patronymic { get; } = default!;
+    
     private FullName(string lastName, string firstName, string patronymic)
     {
         LastName = lastName;

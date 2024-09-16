@@ -7,8 +7,7 @@ public record Address
     public string City { get; }
     public string Street { get; }
     public string NumberHouse { get; }
-
-    private Address() { }
+    
     private Address(string city, string street, string numberHouse)
     {
         City = city;
