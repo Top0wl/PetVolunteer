@@ -12,8 +12,8 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
     public void Configure(EntityTypeBuilder<Pet> builder)
     {
         builder.ToTable("pets");
+        
         builder.HasKey(p => p.Id);
-
         builder.Property(p => p.Id)
             .HasConversion(
                 id => id.Value,
@@ -26,10 +26,46 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Description)
             .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
+        builder.ComplexProperty(p => p.Address, pb =>
+        {
+            pb.Property(a => a.City)
+                .IsRequired()
+                .HasColumnName("city");
+            pb.Property(a => a.Street)
+                .IsRequired()
+                .HasColumnName("street");
+            pb.Property(a => a.NumberHouse)
+                .HasColumnName("number_house");
+        });
+            
+        builder.ComplexProperty(p => p.OwnerPhoneNumber, pb =>
+        {
+            pb.Property(phone => phone.Value)
+                .HasColumnName("owner_phone_number");
+        });
+        
+        builder.ComplexProperty(p => p.HealthInformation, pb =>
+        {
+            pb.Property(healthInformation => healthInformation.Weight)
+                .IsRequired()
+                .HasColumnName("weight");
+            pb.Property(healthInformation => healthInformation.Height)
+                .IsRequired()
+                .HasColumnName("height");
+            pb.Property(healthInformation => healthInformation.IsCastrated)
+                .IsRequired()
+                .HasColumnName("is_castrated");
+            pb.Property(healthInformation => healthInformation.IsVaccinated)
+                .IsRequired()
+                .HasColumnName("is_vaccinated");
+            pb.Property(healthInformation => healthInformation.AdditionalHealthInformation)
+                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                .HasColumnName("additional_health_information");
+        });
         
         builder.OwnsOne(p => p.Photos, pb =>
         {
-            pb.ToJson();
+            pb.ToJson("photos");
             pb.OwnsMany(ppl => ppl.Photos, b =>
             {
                 b.Property(p => p.Path)
@@ -40,21 +76,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         
         builder.OwnsOne(p => p.Requisites, r =>
         {
-            r.ToJson();
-            r.OwnsMany(pr => pr.Requisites, b =>
-            {
-                b.Property(p => p.Title)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                b.Property(p => p.Description)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
-            });
-        });
-        
-        builder.OwnsOne(p => p.Requisites, r =>
-        {
-            r.ToJson();
+            r.ToJson("requisites");
             r.OwnsMany(pr => pr.Requisites, b =>
             {
                 b.Property(p => p.Title)
