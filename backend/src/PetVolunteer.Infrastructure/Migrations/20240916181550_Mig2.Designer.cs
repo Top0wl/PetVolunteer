@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetVolunteer.Infrastructure;
@@ -12,9 +13,11 @@ using PetVolunteer.Infrastructure;
 namespace PetVolunteer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916181550_Mig2")]
+    partial class Mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,10 +32,8 @@ namespace PetVolunteer.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("AnimalType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                    b.Property<int>("AnimalType")
+                        .HasColumnType("integer")
                         .HasColumnName("animal_type");
 
                     b.Property<DateTime>("BirthDate")
@@ -85,7 +86,7 @@ namespace PetVolunteer.Infrastructure.Migrations
                             b1.Property<string>("NumberHouse")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("number_house");
+                                .HasColumnName("NumberHouse");
 
                             b1.Property<string>("Street")
                                 .IsRequired()
@@ -159,7 +160,7 @@ namespace PetVolunteer.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
-                                .HasColumnName("email");
+                                .HasColumnName("email_value");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("Experience", "PetVolunteer.Domain.Models.Volunteer.Experience#ExperienceWork", b1 =>
@@ -168,7 +169,7 @@ namespace PetVolunteer.Infrastructure.Migrations
 
                             b1.Property<int>("Value")
                                 .HasColumnType("integer")
-                                .HasColumnName("experience");
+                                .HasColumnName("experience_value");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("FullName", "PetVolunteer.Domain.Models.Volunteer.FullName#FullName", b1 =>
@@ -178,16 +179,17 @@ namespace PetVolunteer.Infrastructure.Migrations
                             b1.Property<string>("FirstName")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("firstname");
+                                .HasColumnName("full_name_first_name");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("lastname");
+                                .HasColumnName("full_name_last_name");
 
                             b1.Property<string>("Patronymic")
+                                .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("patronymic");
+                                .HasColumnName("full_name_patronymic");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("PhoneNumber", "PetVolunteer.Domain.Models.Volunteer.PhoneNumber#PhoneNumber", b1 =>
@@ -197,7 +199,7 @@ namespace PetVolunteer.Infrastructure.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("phone_number");
+                                .HasColumnName("phone_number_value");
                         });
 
                     b.HasKey("Id")
@@ -223,7 +225,7 @@ namespace PetVolunteer.Infrastructure.Migrations
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("requisites");
+                            b1.ToJson("Requisites");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
@@ -271,7 +273,7 @@ namespace PetVolunteer.Infrastructure.Migrations
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("photos");
+                            b1.ToJson("Photos");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
@@ -285,9 +287,6 @@ namespace PetVolunteer.Infrastructure.Migrations
                                     b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
-
-                                    b2.Property<bool>("IsMain")
-                                        .HasColumnType("boolean");
 
                                     b2.Property<string>("Path")
                                         .IsRequired()
@@ -324,7 +323,7 @@ namespace PetVolunteer.Infrastructure.Migrations
 
                             b1.ToTable("volunteers");
 
-                            b1.ToJson("requisites");
+                            b1.ToJson("Requisites");
 
                             b1.WithOwner()
                                 .HasForeignKey("VolunteerId")
@@ -372,7 +371,7 @@ namespace PetVolunteer.Infrastructure.Migrations
 
                             b1.ToTable("volunteers");
 
-                            b1.ToJson("social_media");
+                            b1.ToJson("SocialMediaList");
 
                             b1.WithOwner()
                                 .HasForeignKey("VolunteerId")

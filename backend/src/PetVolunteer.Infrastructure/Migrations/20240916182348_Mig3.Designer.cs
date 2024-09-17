@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetVolunteer.Infrastructure;
@@ -12,9 +13,11 @@ using PetVolunteer.Infrastructure;
 namespace PetVolunteer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916182348_Mig3")]
+    partial class Mig3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,10 +32,8 @@ namespace PetVolunteer.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("AnimalType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                    b.Property<int>("AnimalType")
+                        .HasColumnType("integer")
                         .HasColumnName("animal_type");
 
                     b.Property<DateTime>("BirthDate")
@@ -186,6 +187,7 @@ namespace PetVolunteer.Infrastructure.Migrations
                                 .HasColumnName("lastname");
 
                             b1.Property<string>("Patronymic")
+                                .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("patronymic");
                         });
@@ -285,9 +287,6 @@ namespace PetVolunteer.Infrastructure.Migrations
                                     b2.Property<int>("Id")
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("integer");
-
-                                    b2.Property<bool>("IsMain")
-                                        .HasColumnType("boolean");
 
                                     b2.Property<string>("Path")
                                         .IsRequired()

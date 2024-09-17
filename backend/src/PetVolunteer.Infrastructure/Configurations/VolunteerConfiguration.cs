@@ -11,28 +11,54 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
         builder.ToTable("volunteers");
-        builder.HasKey(p => p.Id);
-
-        builder.Property(p => p.Id)
+        
+        builder.HasKey(v => v.Id);
+        builder.Property(v => v.Id)
             .HasConversion(
                 id => id.Value,
                 value => VolunteerId.Create(value));
+
+
+        builder.ComplexProperty(v => v.FullName, vb =>
+        {
+            vb.Property(fullName => fullName.FirstName)
+                .IsRequired()
+                .HasColumnName("firstname");
+            vb.Property(fullName => fullName.LastName)
+                .IsRequired()
+                .HasColumnName("lastname");
+            vb.Property(fullName => fullName.Patronymic)
+                .HasColumnName("patronymic");
+        });
         
-        builder.Property(p => p.FirstName)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+        builder.ComplexProperty(v => v.Email, vb =>
+        {
+            vb.Property(email => email.Value)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("email");
+        });
+
+        builder.Property(v => v.Description)
+            .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
         
-        builder.Property(p => p.Email)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+        builder.ComplexProperty(v => v.PhoneNumber, vb =>
+        {
+            vb.Property(number => number.Value)
+                .IsRequired()
+                .HasColumnName("phone_number");
+        });
         
-        builder.Property(p => p.PhoneNumber)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+        builder.ComplexProperty(v => v.Experience, vb =>
+        {
+            vb.Property(exp => exp.Value)
+                .IsRequired()
+                .HasColumnName("experience");
+        });
         
         builder.OwnsOne(p => p.Requisites, r =>
         {
-            r.ToJson();
+            r.ToJson("requisites");
             r.OwnsMany(pr => pr.Requisites, b =>
             {
                 b.Property(p => p.Title)
@@ -46,7 +72,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         
         builder.OwnsOne(p => p.SocialMediaList, sm =>
         {
-            sm.ToJson();
+            sm.ToJson("social_media");
             sm.OwnsMany(vsm => vsm.SocialMedias, b =>
             {
                 b.Property(p => p.Title)
