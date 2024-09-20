@@ -1,6 +1,4 @@
-using PetVolunteer.Domain.Models;
-
-namespace PetVolunteer.Domain.ValueObjects;
+namespace PetVolunteer.Domain.Volunteer.ValueObjects;
 
 public record SocialMediaList
 {

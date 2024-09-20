@@ -14,7 +14,3 @@ public abstract record ValueObjectId<T>
     public static T Create(Guid id) => (T)Activator.CreateInstance(typeof(T), id)!;
 }
 
-//TODO: Пока, что не вижу смысла выносить Id в отдельный классы, как появится необходимость, вынесу...
-public record PetId(Guid Value) : ValueObjectId<PetId>(Value);
-public record VolunteerId(Guid Value) : ValueObjectId<VolunteerId>(Value);
-

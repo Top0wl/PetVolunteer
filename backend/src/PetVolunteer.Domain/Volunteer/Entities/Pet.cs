@@ -1,9 +1,9 @@
 using CSharpFunctionalExtensions;
-using PetVolunteer.Domain.Enums;
-using PetVolunteer.Domain.ValueObjects;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
+using PetVolunteer.Domain.Volunteer.Enums;
+using PetVolunteer.Domain.Volunteer.ValueObjects;
 
-namespace PetVolunteer.Domain.Models;
+namespace PetVolunteer.Domain.Volunteer.Entities;
 
 public class Pet : Shared.Entity<PetId>
 {

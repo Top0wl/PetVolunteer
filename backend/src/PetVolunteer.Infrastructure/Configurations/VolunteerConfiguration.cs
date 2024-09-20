@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetVolunteer.Domain.Models;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
+using PetVolunteer.Domain.Volunteer;
 using Constants = PetVolunteer.Domain.Shared.Constants;
 
 namespace PetVolunteer.Infrastructure.Configurations;
