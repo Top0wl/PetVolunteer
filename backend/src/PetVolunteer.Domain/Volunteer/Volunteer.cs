@@ -16,13 +16,11 @@ public class Volunteer : Shared.Entity<VolunteerId>
 
     #region Public Fields
     
-    public string FirstName { get; private set; } = default!;
-    public string LastName { get; private set; } = default!;
-    public string Surname { get; private set; } = default!;
-    public string Email { get; private set; } = default!;
+    public FullName FullName { get; private set; } = default!;
+    public Email Email { get; private set; } = default!;
     public string Description { get; private set; } = default!;
-    public string PhoneNumber { get; private set; } = default!;
-    public int Experience { get; private set; } = default!;
+    public PhoneNumber PhoneNumber { get; private set; } = default!;
+    public ExperienceWork Experience { get; private set; } = default!;
     public RequisitesList Requisites { get; private set; } = default!;
     public SocialMediaList SocialMediaList { get; private set; } = default!;
     public IReadOnlyList<Pet> Pets => _pets;
@@ -37,18 +35,14 @@ public class Volunteer : Shared.Entity<VolunteerId>
 
     private Volunteer(
         VolunteerId id, 
-        string firstName, 
-        string lastName, 
-        string surname, 
-        string email, 
+        FullName fullName, 
+        Email email, 
         string description, 
-        string phoneNumber, 
-        int experience)
+        PhoneNumber phoneNumber, 
+        ExperienceWork experience)
         : base (id)
     {
-        FirstName = firstName;
-        LastName = lastName;
-        Surname = surname;
+        FullName = fullName;
         Email = email;
         Description = description;
         PhoneNumber = phoneNumber;
@@ -68,28 +62,15 @@ public class Volunteer : Shared.Entity<VolunteerId>
 
     public static Result<Volunteer> Create(
         VolunteerId id,
-        string firstName,
-        string lastName,
-        string surname,
-        string email,
+        FullName fullname,
+        Email email,
         string description,
-        string phoneNumber,
-        int experience)
+        PhoneNumber phoneNumber,
+        ExperienceWork experience)
     {
-        if (string.IsNullOrEmpty(firstName))
-            return Result.Failure<Volunteer>($"FirstName is required.");
-        
-        if (string.IsNullOrEmpty(lastName))
-            return Result.Failure<Volunteer>($"LastName is required.");
-        
-        if (string.IsNullOrEmpty(email))
-            return Result.Failure<Volunteer>($"Email is required.");
-        
         var volunteer = new Volunteer(
             id, 
-            firstName, 
-            lastName, 
-            surname, 
+            fullname,
             email, 
             description, 
             phoneNumber, 
