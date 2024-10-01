@@ -33,7 +33,6 @@ public class Pet : Shared.Entity<PetId>
     private Pet(PetId id,
         string name,
         string description,
-        string breed,
         string color,
         Address address,
         PhoneNumber ownerPhoneNumber,
@@ -45,7 +44,6 @@ public class Pet : Shared.Entity<PetId>
     {
         Name = name;
         Description = description;
-        Breed = breed;
         Color = color;
         Address = address;
         PetStatus = petStatus;
@@ -61,7 +59,6 @@ public class Pet : Shared.Entity<PetId>
         PetId id,
         string name,
         string description,
-        string breed,
         string color,
         Address address,
         PhoneNumber ownerPhoneNumber,
@@ -74,8 +71,6 @@ public class Pet : Shared.Entity<PetId>
         if (string.IsNullOrEmpty(name))
             return Result.Failure<Pet>($"Name is required.");
         
-        if (string.IsNullOrEmpty(breed))
-            return Result.Failure<Pet>($"Breed is required.");
         
         if (string.IsNullOrEmpty(color))
             return Result.Failure<Pet>($"Color is required.");
@@ -84,7 +79,6 @@ public class Pet : Shared.Entity<PetId>
             id, 
             name, 
             description, 
-            breed, 
             color, 
             address,
             ownerPhoneNumber,
