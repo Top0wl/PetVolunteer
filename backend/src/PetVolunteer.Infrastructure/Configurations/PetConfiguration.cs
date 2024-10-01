@@ -26,10 +26,6 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Description)
             .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
 
-        builder.Property(p => p.AnimalType)
-            .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-            .HasColumnName("animal_type");
-
         builder.ComplexProperty(p => p.Address, pb =>
         {
             pb.Property(a => a.City)
@@ -66,6 +62,19 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
                 .HasColumnName("additional_health_information");
         });
+
+        builder.ComplexProperty(p => p.TypeDetails, pb =>
+        {
+            pb.Property(td => td.SpeciesId)
+                .HasConversion(id => id.Value, value => SpeciesId.Create(value))
+                .IsRequired()
+                .HasColumnName("species_id");
+            
+            pb.Property(td => td.BreedId)
+                .HasConversion(id => id.Value, value => BreedId.Create(value))
+                .IsRequired()
+                .HasColumnName("breed_id");
+        });
         
         builder.OwnsOne(p => p.Photos, pb =>
         {
@@ -92,5 +101,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                     .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
             });
         });
+        
+        
     }
 }

@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetVolunteer.Domain.ValueObjects;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 using PetVolunteer.Domain.Volunteer.Enums;
 using PetVolunteer.Domain.Volunteer.ValueObjects;
@@ -9,10 +10,7 @@ public class Pet : Shared.Entity<PetId>
 {
     #region Public Fields
     public string Name { get; private set; } = default!;
-    public string AnimalType { get; private set; } = default!;
     public string Description { get; private set; } = default!;
-    //TODO: Когда-то потом по заданиям появится новый класс...???
-    public string Breed { get; private set; } = default!;
     //TODO: Подумать как лучше хранить Color? Мб хранить в .net структуре Color. Или мб ValueObject сделать, который будет хранить много чего
     public string Color { get; private set; } = default!;
     public Address Address { get; private set; } = default!;
@@ -24,6 +22,8 @@ public class Pet : Shared.Entity<PetId>
     public PetPhotos? Photos { get; private set; } = default!;
     public RequisitesList? Requisites { get; private set; } = default!;
     
+    public TypeDetails TypeDetails { get; private set; }
+    
     #endregion Public Fields
 
     #region Ctor
@@ -32,7 +32,6 @@ public class Pet : Shared.Entity<PetId>
 
     private Pet(PetId id,
         string name,
-        string animalType,
         string description,
         string breed,
         string color,
@@ -45,7 +44,6 @@ public class Pet : Shared.Entity<PetId>
         : base(id)
     {
         Name = name;
-        AnimalType = animalType;
         Description = description;
         Breed = breed;
         Color = color;
@@ -62,7 +60,6 @@ public class Pet : Shared.Entity<PetId>
     public static Result<Pet> Create(
         PetId id,
         string name,
-        string animalType,
         string description,
         string breed,
         string color,
@@ -86,7 +83,6 @@ public class Pet : Shared.Entity<PetId>
         var pet = new Pet(
             id, 
             name, 
-            animalType, 
             description, 
             breed, 
             color, 

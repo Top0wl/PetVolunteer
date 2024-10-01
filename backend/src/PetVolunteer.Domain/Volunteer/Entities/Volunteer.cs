@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetVolunteer.Domain.ValueObjects;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 using PetVolunteer.Domain.Volunteer.Entities;
 using PetVolunteer.Domain.Volunteer.Enums;
