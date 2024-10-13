@@ -1,6 +1,8 @@
+using PetVolunteer.Domain.ValueObjects.ValueObjectId;
+
 namespace PetVolunteer.Domain.Shared;
 
-public abstract class Entity<TId> where TId : notnull
+public abstract class Entity<TId> where TId : ValueObjectId<TId>
 {
     public TId Id { get; private set; }
 

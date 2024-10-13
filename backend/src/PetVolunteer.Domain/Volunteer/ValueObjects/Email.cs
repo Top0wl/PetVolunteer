@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
+using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Domain.Volunteer.ValueObjects;
 
@@ -13,10 +14,10 @@ public record Email
         Value = value;
     }
     
-    public static Result<Email> Create(string email)
+    public static Result<Email, Error> Create(string email)
     {
         if (!ValidationRegex.IsMatch(email))
-            return Result.Failure<Email>($"Email is not valid.");
+            return Errors.General.ValueIsInvalid(nameof(email));
 
         return new Email(email);
     }

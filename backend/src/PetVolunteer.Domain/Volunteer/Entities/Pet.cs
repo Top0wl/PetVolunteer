@@ -6,8 +6,10 @@ using PetVolunteer.Domain.Volunteer.ValueObjects;
 
 namespace PetVolunteer.Domain.Volunteer.Entities;
 
-public class Pet : Shared.Entity<PetId>
+public class Pet : Shared.Entity<PetId>, ISoftDeletable
 {
+    private bool _isDeleted = false;
+    
     #region Public Fields
     public string Name { get; private set; } = default!;
     public string Description { get; private set; } = default!;
@@ -88,5 +90,17 @@ public class Pet : Shared.Entity<PetId>
             createdDate);
         
         return Result.Success(pet);
+    }
+
+    public void Delete()
+    {
+        if (_isDeleted == false)
+            _isDeleted = true;
+    }
+    
+    public void Restore()
+    {
+        if (_isDeleted)
+            _isDeleted = false;
     }
 }
