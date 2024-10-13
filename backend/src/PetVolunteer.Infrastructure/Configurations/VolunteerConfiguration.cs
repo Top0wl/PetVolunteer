@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 using PetVolunteer.Domain.Volunteer;
+using PetVolunteer.Domain.Volunteer.Entities;
 using Constants = PetVolunteer.Domain.Shared.Constants;
 
 namespace PetVolunteer.Infrastructure.Configurations;
@@ -85,6 +86,12 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         });
 
         builder.HasMany(v => v.Pets)
-            .WithOne();
+            .WithOne()
+            .HasForeignKey("pet_id")
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }

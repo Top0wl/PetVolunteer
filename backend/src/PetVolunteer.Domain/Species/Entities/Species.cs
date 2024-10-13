@@ -1,10 +1,8 @@
 using CSharpFunctionalExtensions;
-using PetVolunteer.Domain.Species.Entities;
 using PetVolunteer.Domain.Species.ValueObjects;
-using PetVolunteer.Domain.ValueObjects;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 
-namespace PetVolunteer.Domain.Species;
+namespace PetVolunteer.Domain.Species.Entities;
 
 public class Species : Shared.Entity<SpeciesId>
 {

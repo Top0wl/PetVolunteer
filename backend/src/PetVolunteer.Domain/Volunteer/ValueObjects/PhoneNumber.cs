@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
+using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Domain.Volunteer.ValueObjects;
 
@@ -13,10 +14,10 @@ public record PhoneNumber
         Value = value;
     }
     
-    public static Result<PhoneNumber> Create(string phoneNumber)
+    public static Result<PhoneNumber, Error> Create(string phoneNumber)
     {
         if (!ValidatePhoneNumberRegex.IsMatch(phoneNumber))
-            return Result.Failure<PhoneNumber>($"Phone number is not valid.");
+            return Errors.General.ValueIsInvalid(nameof(phoneNumber));
         
         return new PhoneNumber(phoneNumber);
     }

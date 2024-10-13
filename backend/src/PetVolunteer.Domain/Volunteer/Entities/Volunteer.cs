@@ -1,18 +1,18 @@
 using CSharpFunctionalExtensions;
-using PetVolunteer.Domain.ValueObjects;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
-using PetVolunteer.Domain.Volunteer.Entities;
 using PetVolunteer.Domain.Volunteer.Enums;
 using PetVolunteer.Domain.Volunteer.ValueObjects;
 
-namespace PetVolunteer.Domain.Volunteer;
+namespace PetVolunteer.Domain.Volunteer.Entities;
 
-public class Volunteer : Shared.Entity<VolunteerId>
+public class Volunteer : Shared.Entity<VolunteerId>, ISoftDeletable
 {
     #region Private Fields
     
     private readonly List<Pet> _pets = [];
 
+    private bool _isDeleted = false;
+    
     #endregion Private Fields
 
     #region Public Fields
@@ -22,8 +22,8 @@ public class Volunteer : Shared.Entity<VolunteerId>
     public string Description { get; private set; } = default!;
     public PhoneNumber PhoneNumber { get; private set; } = default!;
     public ExperienceWork Experience { get; private set; } = default!;
-    public RequisitesList Requisites { get; private set; } = default!;
-    public SocialMediaList SocialMediaList { get; private set; } = default!;
+    public RequisitesList? Requisites { get; private set; }
+    public SocialMediaList? SocialMediaList { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
 
     #endregion Public Fields
@@ -34,7 +34,7 @@ public class Volunteer : Shared.Entity<VolunteerId>
     {
     }
 
-    private Volunteer(
+    public Volunteer(
         VolunteerId id, 
         FullName fullName, 
         Email email, 
@@ -78,5 +78,23 @@ public class Volunteer : Shared.Entity<VolunteerId>
             experience);
         
         return Result.Success(volunteer);
+    }
+
+    public void UpdateMainInfo(string? description, PhoneNumber phoneNumber)
+    {
+        Description = description!;
+        PhoneNumber = phoneNumber;
+    }
+
+    public void Delete()
+    {
+        if (_isDeleted == false)
+            _isDeleted = true;
+    }
+    
+    public void Restore()
+    {
+        if (_isDeleted)
+            _isDeleted = false;
     }
 }

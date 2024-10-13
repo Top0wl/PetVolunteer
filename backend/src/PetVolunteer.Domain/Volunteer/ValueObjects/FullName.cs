@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Domain.Volunteer.ValueObjects;
 
@@ -15,12 +16,13 @@ public record FullName
         Patronymic = patronymic;
     }
 
-    public static Result<FullName> Create(string lastName, string firstName, string patronymic)
+    public static Result<FullName, Error> Create(string lastName, string firstName, string patronymic)
     {
         if (string.IsNullOrWhiteSpace(lastName))
-            return Result.Failure<FullName>($"LastName is required.");
-        if (string.IsNullOrWhiteSpace(firstName))
-            return Result.Failure<FullName>($"FirstName is required.");
+            return Errors.General.ValueIsRequired(nameof(lastName));
+        
+        if(string.IsNullOrWhiteSpace(firstName))
+            return Errors.General.ValueIsRequired(nameof(firstName));
 
         return new FullName(lastName, firstName, patronymic);
     }

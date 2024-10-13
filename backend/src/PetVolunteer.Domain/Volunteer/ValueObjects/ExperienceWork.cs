@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Domain.Volunteer.ValueObjects;
 
@@ -10,10 +11,10 @@ public record ExperienceWork
         Value = value;
     }
     
-    public static Result<ExperienceWork> Create(int experienceWork)
+    public static Result<ExperienceWork, Error> Create(int experienceWork)
     {
-        if (experienceWork > 0)
-            return Result.Failure<ExperienceWork>($"Experience can't been < 0.");
+        if (experienceWork < 0)
+            return Errors.General.ValueIsInvalid(nameof(experienceWork));
 
         return new ExperienceWork(experienceWork);
     }
