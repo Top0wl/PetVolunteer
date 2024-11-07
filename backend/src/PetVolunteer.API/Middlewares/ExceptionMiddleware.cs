@@ -1,4 +1,5 @@
 using PetVolunteer.API.Response;
+using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.API.Middlewares;
 
@@ -23,12 +24,11 @@ public class ExceptionMiddleware
         {
             _logger.LogError(ex, ex.Message);
             
-            var responseError = new ResponseError("server.internal.error", ex.Message, null);
-            var envelope = Envelope.Error([responseError]);
+            var error = Error.Failure("server.internal.error", ex.Message);
+            var envelope = Envelope.Error(error);
             
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            
             await httpContext.Response.WriteAsJsonAsync(envelope);
         }
     }

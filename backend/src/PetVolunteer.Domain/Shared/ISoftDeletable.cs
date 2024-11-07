@@ -1,4 +1,4 @@
-namespace PetVolunteer.Domain.Volunteer.Entities;
+namespace PetVolunteer.Domain.Shared;
 
 public interface ISoftDeletable
 {

@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetVolunteer.Domain.PetManagement.Volunteer.Entities;
+using PetVolunteer.Domain.Shared;
 using PetVolunteer.Domain.ValueObjects;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
-using PetVolunteer.Domain.Volunteer.Entities;
 using Constants = PetVolunteer.Domain.Shared.Constants;
 
 namespace PetVolunteer.Infrastructure.Configurations;
@@ -76,15 +77,18 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
                 .HasColumnName("breed_id");
         });
         
-        builder.OwnsOne(p => p.Photos, pb =>
+        builder.OwnsOne(p => p.Photos, fb =>
         {
-            pb.ToJson("photos");
-            pb.OwnsMany(ppl => ppl.Photos, b =>
+            fb.ToJson("photos");
+            fb.OwnsMany(ppl => ppl.Values, petPhotoBuilder =>
             {
-                b.Property(p => p.Path)
+                petPhotoBuilder.Property(p => p.PathToStorage)
+                    .HasConversion(
+                        p=>p.ObjectName,
+                        value => FilePath.Create(value).Value)
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                b.Property(p => p.IsMain);
+                petPhotoBuilder.Property(p => p.IsMain);
             });
         });
         

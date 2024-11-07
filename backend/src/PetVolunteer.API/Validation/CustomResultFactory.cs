@@ -6,8 +6,8 @@ using PetVolunteer.Domain.Shared;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
 
 namespace PetVolunteer.API.Validation;
-
-public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
+/*
+public class ustomResultFactory : IFluentValidationAutoValidationResultFactory
 {
     public IActionResult CreateActionResult(
         ActionExecutingContext context,
@@ -32,3 +32,4 @@ public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
         };
     }
 }
+*/

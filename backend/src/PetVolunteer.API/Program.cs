@@ -32,13 +32,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSerilog();
 
 builder.Services
-    .AddInfrastructure()
+    .AddInfrastructure(builder.Configuration)
     .AddApplication();
 
-builder.Services.AddFluentValidationAutoValidation(configuration =>
-{
-    configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-});
+// builder.Services.AddFluentValidationAutoValidation(configuration =>
+// {
+//     configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
+// });
 
 var app = builder.Build();
 

@@ -17,16 +17,16 @@ public class DeleteVolunteerHandler
     }
 
     public async Task<Result<Guid, Error>> Handle(
-        DeleteVolunteerRequest request,
+        DeleteVolunteerCommand command,
         CancellationToken cancellationToken = default)
     {
-        var volunteerResult = await _volunteerRepository.GetById(request.VolunteerId, cancellationToken);
+        var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, cancellationToken);
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;
          
         var result = await _volunteerRepository.Delete(volunteerResult.Value, cancellationToken);
         
-        _logger.LogInformation("Delete volunteer, id: {VolunteerId}", request.VolunteerId);
+        _logger.LogInformation("Delete volunteer, id: {VolunteerId}", command.VolunteerId);
         //Соз
         return result;
     }

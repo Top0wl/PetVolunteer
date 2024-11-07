@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using PetVolunteer.Domain.Volunteer.Entities;
+using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Infrastructure.Interceptors;
 

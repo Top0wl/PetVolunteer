@@ -1,8 +1,10 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetVolunteer.Domain.PetManagement.Volunteer.Entities;
+using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
-using PetVolunteer.Domain.Volunteer;
-using PetVolunteer.Domain.Volunteer.Entities;
 using Constants = PetVolunteer.Domain.Shared.Constants;
 
 namespace PetVolunteer.Infrastructure.Configurations;
@@ -19,7 +21,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 id => id.Value,
                 value => VolunteerId.Create(value));
 
-
+        /*
+         builder.Property(v => v.SocialMediaList)
+            .HasConversion(
+                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
+                value => JsonSerializer.Deserialize<SocialMediaList>(value, JsonSerializerOptions.Default));
+        */
+        
         builder.ComplexProperty(v => v.FullName, vb =>
         {
             vb.Property(fullName => fullName.FirstName)
@@ -57,7 +65,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasColumnName("experience");
         });
         
-        builder.OwnsOne(p => p.Requisites, r =>
+        builder.OwnsOne(p => p.RequisitesList, r =>
         {
             r.ToJson("requisites");
             r.OwnsMany(pr => pr.Requisites, b =>

@@ -1,9 +1,8 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.Shared;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
-using PetVolunteer.Domain.Volunteer.Entities;
-using PetVolunteer.Domain.Volunteer.ValueObjects;
 
 namespace PetVolunteer.Application.Volunteer.CreateVolunteer;
 
@@ -19,25 +18,25 @@ public class CreateVolunteerHandler
     }
 
     public async Task<Result<Guid, Error>> Handle(
-        CreateVolunteerRequest request,
+        CreateVolunteerCommand command,
         CancellationToken cancellationToken = default)
     {
         //Создания доменной модели
         var volunteerId = VolunteerId.NewId();
-        var fullName = FullName.Create(request.FullName.LastName, request.FullName.FirstName, request.FullName.Patronymic).Value;
-        var email = Email.Create(request.email).Value;
-        var phone = PhoneNumber.Create(request.phoneNumber).Value;
-        var experienceOfWork = ExperienceWork.Create(request.experienceOfWork).Value;
+        var fullName = FullName.Create(command.FullName.LastName, command.FullName.FirstName, command.FullName.Patronymic).Value;
+        var email = Email.Create(command.Email).Value;
+        var phone = PhoneNumber.Create(command.PhoneNumber).Value;
+        var experienceOfWork = ExperienceWork.Create(command.ExperienceOfWork).Value;
         
         var existVolunteer = await _volunteerRepository.GetByEmail(email);
         if(existVolunteer.IsSuccess)
             return Errors.Volunteer.EmailIsAlreadyExist();
         
-        var volunteer = new Domain.Volunteer.Entities.Volunteer(
+        var volunteer = new Domain.PetManagement.Volunteer.Entities.Volunteer(
             volunteerId, 
             fullName, 
             email, 
-            request.description,
+            command.Description,
             phone,
             experienceOfWork);
         

@@ -1,17 +1,18 @@
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
+using PetVolunteer.Application.Database;
 using PetVolunteer.Application.Volunteer;
+using PetVolunteer.Domain.PetManagement.Volunteer.Entities;
+using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.Shared;
-using PetVolunteer.Domain.Volunteer.Entities;
-using PetVolunteer.Domain.Volunteer.ValueObjects;
 
 namespace PetVolunteer.Infrastructure.Repositories;
 
 public class VolunteerRepository : IVolunteerRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly IApplicationDbContext _dbContext;
     
-    public VolunteerRepository(ApplicationDbContext dbContext)
+    public VolunteerRepository(IApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
