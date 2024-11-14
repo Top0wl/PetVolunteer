@@ -10,9 +10,9 @@ namespace PetVolunteer.Infrastructure.Repositories;
 
 public class VolunteerRepository : IVolunteerRepository
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
     
-    public VolunteerRepository(IApplicationDbContext dbContext)
+    public VolunteerRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -46,6 +46,7 @@ public class VolunteerRepository : IVolunteerRepository
     public async Task<Result<Volunteer, Error>> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
+            .Include(v => v.Pets)
             .FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
 
         if (volunteer is null)

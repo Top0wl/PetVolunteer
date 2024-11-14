@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using Minio.AspNetCore;
+using PetVolunteer.Application;
 using PetVolunteer.Application.Database;
 using PetVolunteer.Application.Providers.FileProvider;
 using PetVolunteer.Application.Volunteer;
@@ -18,7 +19,8 @@ public static class Inject
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        services.AddScoped<ApplicationDbContext>(); 
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         //Repositories
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();

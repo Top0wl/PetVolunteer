@@ -19,6 +19,7 @@ public static class Inject
         services.AddScoped<UpdateRequisitesHandler>();
         services.AddScoped<UpdateSocialMediaHandler>();
         services.AddScoped<AddPetHandler>();
+        services.AddScoped<UploadFilesToPetHandler>();
         
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         

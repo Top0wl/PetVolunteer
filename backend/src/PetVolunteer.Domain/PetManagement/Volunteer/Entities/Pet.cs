@@ -9,10 +9,13 @@ namespace PetVolunteer.Domain.PetManagement.Volunteer.Entities;
 public class Pet : Shared.Entity<PetId>, ISoftDeletable
 {
     private bool _isDeleted = false;
-    
+
     #region Public Fields
+
     public string Name { get; private set; } = default!;
+
     public string Description { get; private set; } = default!;
+
     //TODO: Подумать как лучше хранить Color? Мб хранить в .net структуре Color. Или мб ValueObject сделать, который будет хранить много чего
     public string Color { get; private set; } = default!;
     public Address Address { get; private set; } = default!;
@@ -24,12 +27,16 @@ public class Pet : Shared.Entity<PetId>, ISoftDeletable
     public ValueObjectList<PetPhoto> Photos { get; private set; }
     public RequisitesList? Requisites { get; private set; }
     public TypeDetails TypeDetails { get; private set; }
-    
+
+    public Position Position { get; private set; }
+
     #endregion Public Fields
 
     #region Ctor
 
-    private Pet(PetId id) : base(id) { }
+    private Pet(PetId id) : base(id)
+    {
+    }
 
     public Pet(PetId id,
         string name,
@@ -40,7 +47,7 @@ public class Pet : Shared.Entity<PetId>, ISoftDeletable
         PetStatus petStatus,
         HealthInformation healthInformation,
         DateTime birthDate,
-        DateTime createdDate, 
+        DateTime createdDate,
         ValueObjectList<PetPhoto> photos,
         TypeDetails typeDetails)
         : base(id)
@@ -76,25 +83,25 @@ public class Pet : Shared.Entity<PetId>, ISoftDeletable
     {
         if (string.IsNullOrEmpty(name))
             return Result.Failure<Pet>($"Name is required.");
-        
-        
+
+
         if (string.IsNullOrEmpty(color))
             return Result.Failure<Pet>($"Color is required.");
 
         var pet = new Pet(
-            id, 
-            name, 
-            description, 
-            color, 
+            id,
+            name,
+            description,
+            color,
             address,
             ownerPhoneNumber,
             petStatus,
             healthInformation,
-            birthDate, 
+            birthDate,
             createdDate,
             photos,
             typeDetails);
-        
+
         return Result.Success(pet);
     }
 
@@ -103,10 +110,40 @@ public class Pet : Shared.Entity<PetId>, ISoftDeletable
         if (_isDeleted == false)
             _isDeleted = true;
     }
-    
+
     public void Restore()
     {
         if (_isDeleted)
             _isDeleted = false;
+    }
+
+    public void UpdateFiles(ValueObjectList<PetPhoto> photos)
+    {
+        this.Photos = photos;
+    }
+
+    public void SetPosition(Position position)
+    {
+        Position = position;
+    }
+
+    public UnitResult<Error> MoveForeward()
+    {
+        var newPosition = Position.Forward();
+        if (newPosition.IsFailure)
+            return newPosition.Error;
+        
+        Position = newPosition.Value;
+        return Result.Success<Error>();
+    }
+    
+    public UnitResult<Error> MoveBack()
+    {
+        var newPosition = Position.Back();
+        if (newPosition.IsFailure)
+            return newPosition.Error;
+        
+        Position = newPosition.Value;
+        return Result.Success<Error>();
     }
 }

@@ -16,9 +16,19 @@ public record AddPetCommand
     public PetStatus PetStatus { get; set; }
     public HealthInformationDto HealthInformation { get; set; }
     public DateTime BirthDate { get; set; }
-    public IEnumerable<CreateFileDto> Files { get; set; }
     
-    public AddPetCommand(Guid volunteerId, Guid speciesId, Guid breedId, string name, string description, string color, AddressDto address, string phoneOwner, PetStatus petStatus, HealthInformationDto healthInformation, DateTime birthDate, IEnumerable<CreateFileDto> files)
+    public AddPetCommand(
+        Guid volunteerId, 
+        Guid speciesId, 
+        Guid breedId, 
+        string name, 
+        string description, 
+        string color, 
+        AddressDto address, 
+        string phoneOwner, 
+        PetStatus petStatus, 
+        HealthInformationDto healthInformation, 
+        DateTime birthDate)
     {
         VolunteerId = volunteerId;
         SpeciesId = speciesId;
@@ -31,8 +41,5 @@ public record AddPetCommand
         PetStatus = petStatus;
         HealthInformation = healthInformation;
         BirthDate = birthDate;
-        Files = files;
     }
 }
-
-public record CreateFileDto(Stream Stream, string FileName);

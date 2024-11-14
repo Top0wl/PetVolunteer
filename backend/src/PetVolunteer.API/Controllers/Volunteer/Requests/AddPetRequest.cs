@@ -16,5 +16,21 @@ public record AddPetRequest
     public PetStatus PetStatus { get; set; }
     public HealthInformationDto HealthInformation { get; set; }
     public DateTime BirthDate { get; set; }
-    public IFormFileCollection Files { get; set; }
+
+    public AddPetCommand ToCommand(Guid volunteerId)
+    {
+        var command = new AddPetCommand(
+            volunteerId,
+            SpeciesId,
+            BreedId,
+            Name,
+            Description,
+            Color,
+            Address,
+            PhoneOwner,
+            PetStatus,
+            HealthInformation,
+            BirthDate);
+        return command;
+    }
 }
