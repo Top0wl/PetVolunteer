@@ -49,6 +49,31 @@ public class MinioProvider : IFileProvider
         }
     }
 
+    public async Task<UnitResult<Error>> RemoveFileAsync(FilePath objectName, string bucketName, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var statObjectArgs = new StatObjectArgs()
+                .WithBucket(bucketName)
+                .WithObject(objectName.ObjectName);
+            var objectStat = await _minioClient.StatObjectAsync(statObjectArgs, cancellationToken);
+            if (objectStat is null) 
+                return Result.Success<Error>();
+            
+            var removeObjectArgs = new RemoveObjectArgs()
+                .WithBucket(bucketName)
+                .WithObject(objectName.ObjectName);
+            await _minioClient.RemoveObjectAsync(removeObjectArgs, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Fail to remove file from minio");
+            return Error.Failure("file.remove", "Fail to remove file from minio");
+        }
+
+        return Result.Success<Error>();
+    }
+
     private async Task IfBucketsNotExistsCreateBucket(
         List<FileUploadInfo> filesList,
         CancellationToken cancellationToken)

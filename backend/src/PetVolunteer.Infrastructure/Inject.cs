@@ -6,7 +6,10 @@ using PetVolunteer.Application;
 using PetVolunteer.Application.Database;
 using PetVolunteer.Application.Providers.FileProvider;
 using PetVolunteer.Application.Volunteer;
+using PetVolunteer.Domain.Shared;
+using PetVolunteer.Infrastructure.BackgroundServices;
 using PetVolunteer.Infrastructure.Interceptors;
+using PetVolunteer.Infrastructure.MessageQueues;
 using PetVolunteer.Infrastructure.Providers;
 using PetVolunteer.Infrastructure.Repositories;
 using MinioOptions = PetVolunteer.Infrastructure.Options.MinioOptions;
@@ -24,6 +27,12 @@ public static class Inject
         
         //Repositories
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+        
+        //BackgroundSerivce
+        services.AddHostedService<FilesCleanerBackgroundService>();
+        
+        //Queues
+        services.AddSingleton<IMessageQueue<IEnumerable<(FilePath, string)>>, InMemoryMessageQueue<IEnumerable<(FilePath, string)>>>();
         
         //MinIO
         services.AddMinio(configuration);

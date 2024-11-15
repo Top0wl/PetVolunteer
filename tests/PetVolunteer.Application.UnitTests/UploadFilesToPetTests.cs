@@ -17,66 +17,63 @@ namespace PetVolunteer.Application.UnitTests;
 
 public class UploadFilesToPetTests
 {
+    private readonly Mock<IFileProvider> _fileProviderMock = new();
+    private readonly Mock<IVolunteerRepository> _volunteerRepositoryMock = new();
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
+    private readonly Mock<IValidator<UploadFilesToPetCommand>> _validatorMock = new();
+    private readonly Mock<ILogger<UploadFilesToPetHandler>> _loggerMock = new();
+    private readonly CancellationToken _cancellationToken = new CancellationTokenSource().Token;
+
+
     [Fact]
     public async Task Handle_ShouldUploadFilesToPet()
     {
         //Arrange
         var volunteer = CreateVolunteerWithPets(1);
-        
-        var cancellationToken = new CancellationTokenSource().Token;
         var stream = new MemoryStream();
         var fileName = "test.jpg";
         var uploadFile = new UploadFileDto(stream, fileName);
         List<UploadFileDto> uploadFiles = [uploadFile, uploadFile];
         var command = new UploadFilesToPetCommand(volunteer.Id, volunteer.Pets.First().Id, uploadFiles);
-        
-        var fileProviderMock = new Mock<IFileProvider>();
+
         List<FilePath> filePaths =
         [
             FilePath.Create(fileName).Value,
             FilePath.Create(fileName).Value,
         ];
-        fileProviderMock
-            .Setup(v => v.UploadAsync(It.IsAny<List<FileUploadInfo>>(), cancellationToken))
+        _fileProviderMock
+            .Setup(v => v.UploadAsync(It.IsAny<List<FileUploadInfo>>(), _cancellationToken))
             .ReturnsAsync(Result.Success<IReadOnlyList<FilePath>, Error>(filePaths));
 
-        var volunteerRepositoryMock = new Mock<IVolunteerRepository>();
-        volunteerRepositoryMock
-            .Setup(v => v.GetById(volunteer.Id, cancellationToken))
+        _volunteerRepositoryMock
+            .Setup(v => v.GetById(volunteer.Id, _cancellationToken))
             .ReturnsAsync(volunteer);
-        
-        var unitOfWorkMock = new Mock<IUnitOfWork>();
-        unitOfWorkMock
-            .Setup(u => u.SaveChangesAsync(cancellationToken))
+
+        _unitOfWorkMock
+            .Setup(u => u.SaveChangesAsync(_cancellationToken))
             .Returns(Task.CompletedTask);
-        
-        var validatorMock = new Mock<IValidator<UploadFilesToPetCommand>>();
-        validatorMock
-            .Setup(v => v.ValidateAsync(command, cancellationToken))
+
+        _validatorMock
+            .Setup(v => v.ValidateAsync(command, _cancellationToken))
             .ReturnsAsync(new ValidationResult());
-        
-        //var Logger = LoggerFactory.Create()
-        
-        var loggerMock = new Mock<ILogger<UploadFilesToPetHandler>>();
-        //loggerMock.Setup(l => l.LogInformation("Success"));
-        
+
         var handler = new UploadFilesToPetHandler(
-            fileProviderMock.Object,
-            volunteerRepositoryMock.Object,
-            loggerMock.Object,
-            validatorMock.Object,
-            unitOfWorkMock.Object);
-        
+            _fileProviderMock.Object,
+            _volunteerRepositoryMock.Object,
+            _loggerMock.Object,
+            _validatorMock.Object,
+            _unitOfWorkMock.Object);
+
         //Act
-        var result = await handler.Handle(command, cancellationToken);
-        
+        var result = await handler.Handle(command, _cancellationToken);
+
         //Assert
         volunteer.Pets.First().Photos.Should().HaveCount(2);
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().Be(volunteer.Pets.First().Id);
         //result
     }
-    
+
     private Domain.PetManagement.Volunteer.Entities.Volunteer CreateVolunteerWithPets(int petsCount)
     {
         var volunteerId = VolunteerId.NewId();
@@ -85,18 +82,20 @@ public class UploadFilesToPetTests
         var experienceWork = ExperienceWork.Create(1).Value;
         var phone = PhoneNumber.Create("+7-777-777-7777").Value;
         var description = "str";
-        
-        var volunteer = new Domain.PetManagement.Volunteer.Entities.Volunteer(volunteerId, fullname, email, description, phone, experienceWork);
+
+        var volunteer =
+            new Domain.PetManagement.Volunteer.Entities.Volunteer(volunteerId, fullname, email, description, phone,
+                experienceWork);
 
         for (int i = 0; i < petsCount; i++)
         {
-            var pet = CreatePet(i+1);
+            var pet = CreatePet(i + 1);
             volunteer.AddPet(pet);
         }
 
         return volunteer;
     }
-    
+
     private Pet CreatePet(int? nameIdentifier = null)
     {
         var petId = PetId.NewId();
@@ -116,5 +115,3 @@ public class UploadFilesToPetTests
         return pet;
     }
 }
-
-

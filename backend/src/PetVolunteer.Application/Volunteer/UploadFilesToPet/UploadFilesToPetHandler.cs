@@ -7,6 +7,7 @@ using PetVolunteer.Application.Providers.FileProvider;
 using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.Shared;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
+using PetVolunteer.Infrastructure.MessageQueues;
 
 namespace PetVolunteer.Application.Volunteer.AddPet;
 
@@ -19,6 +20,7 @@ public class UploadFilesToPetHandler
     private readonly ILogger<UploadFilesToPetHandler> _logger;
     private readonly IValidator<UploadFilesToPetCommand> _validator;
     private readonly IUnitOfWork _unitOfWork;
+    //private readonly IMessageQueue<IEnumerable<(FilePath, string)>> _messageQueue;
     
 
     public UploadFilesToPetHandler(
@@ -27,12 +29,14 @@ public class UploadFilesToPetHandler
         ILogger<UploadFilesToPetHandler> logger, 
         IValidator<UploadFilesToPetCommand> validator, 
         IUnitOfWork unitOfWork)
+        //IMessageQueue<Imerable<(FilePath, string)>> messageQueuEnue)
     {
         _fileProvider = fileProvider;
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _validator = validator;
         _unitOfWork = unitOfWork;
+        //_messageQueue = messageQueue;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -66,9 +70,15 @@ public class UploadFilesToPetHandler
         }
         
         var uploadResult = await _fileProvider.UploadAsync(listFileUploadInfo, cancellationToken);
-        if(uploadResult.IsFailure)
+        if (uploadResult.IsFailure)
+        {
+            //await _messageQueue.WriteAsync(
+            //    listFileUploadInfo.Select(f => (f.ObjectName, f.BucketName)), 
+            //    cancellationToken);
+            
             return uploadResult.Error.ToErrorList();
-        
+        }
+
         var petPhotos = uploadResult.Value
             .Select(f=> new PetPhoto(f, false))
             .ToList();
