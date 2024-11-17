@@ -1,14 +1,16 @@
 using System.Data;
 using Microsoft.EntityFrameworkCore.Storage;
 using PetVolunteer.Application;
+using PetVolunteer.Application.Database;
+using PetVolunteer.Infrastructure.DbContexts;
 
 namespace PetVolunteer.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
 
-    public UnitOfWork(ApplicationDbContext dbContext)
+    public UnitOfWork(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }

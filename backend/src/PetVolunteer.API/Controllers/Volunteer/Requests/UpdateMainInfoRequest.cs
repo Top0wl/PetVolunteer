@@ -1,7 +1,7 @@
 using PetVolunteer.Application.DTOs;
-using PetVolunteer.Application.Volunteer.UpdateMainInfo;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateMainInfo;
 
-namespace PetVolunteer.API.Controllers.Requests;
+namespace PetVolunteer.API.Controllers.Volunteer.Requests;
 
 public record UpdateMainInfoRequest(
     FullNameDto FullNameDto,

@@ -1,7 +1,7 @@
 using PetVolunteer.Application.DTOs;
-using PetVolunteer.Application.Volunteer.CreateVolunteer;
+using PetVolunteer.Application.VolunteerManagement.Commands.CreateVolunteer;
 
-namespace PetVolunteer.API.Controllers.Requests;
+namespace PetVolunteer.API.Controllers.Volunteer.Requests;
 
 public record CreateVolunteerRequest(
     FullNameDto FullName,

@@ -1,4 +1,4 @@
-namespace PetVolunteer.Infrastructure.MessageQueues;
+namespace PetVolunteer.Application.Messaging;
 
 public interface IMessageQueue<TMessage>
 {

@@ -1,8 +1,8 @@
 using PetVolunteer.Application.DTOs;
-using PetVolunteer.Application.Volunteer.AddPet;
+using PetVolunteer.Application.VolunteerManagement.Commands.AddPet;
 using PetVolunteer.Domain.PetManagement.Volunteer.Enums;
 
-namespace PetVolunteer.API.Contracts;
+namespace PetVolunteer.API.Controllers.Volunteer.Requests;
 
 public record AddPetRequest
 {

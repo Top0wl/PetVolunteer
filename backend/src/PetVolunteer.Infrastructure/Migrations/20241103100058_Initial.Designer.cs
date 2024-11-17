@@ -7,12 +7,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetVolunteer.Infrastructure;
+using PetVolunteer.Infrastructure.DbContexts;
 
 #nullable disable
 
 namespace PetVolunteer.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(WriteDbContext))]
     [Migration("20241103100058_Initial")]
     partial class Initial
     {

@@ -1,4 +1,4 @@
-using PetVolunteer.Application.Volunteer.AddPet;
+using PetVolunteer.Application.DTOs;
 
 namespace PetVolunteer.API.Processors;
 

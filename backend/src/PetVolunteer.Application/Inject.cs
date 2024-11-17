@@ -1,11 +1,13 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetVolunteer.Application.Volunteer.AddPet;
-using PetVolunteer.Application.Volunteer.CreateVolunteer;
-using PetVolunteer.Application.Volunteer.Detele;
-using PetVolunteer.Application.Volunteer.UpdateMainInfo;
-using PetVolunteer.Application.Volunteer.UpdateRequisites;
-using PetVolunteer.Application.Volunteer.UpdateSocialMedia;
+using PetVolunteer.Application.VolunteerManagement.Commands.AddPet;
+using PetVolunteer.Application.VolunteerManagement.Commands.CreateVolunteer;
+using PetVolunteer.Application.VolunteerManagement.Commands.Detele;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateMainInfo;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateRequisites;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateSocialMedia;
+using PetVolunteer.Application.VolunteerManagement.Commands.UploadFilesToPet;
+using PetVolunteer.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
 
 namespace PetVolunteer.Application;
 
@@ -20,6 +22,8 @@ public static class Inject
         services.AddScoped<UpdateSocialMediaHandler>();
         services.AddScoped<AddPetHandler>();
         services.AddScoped<UploadFilesToPetHandler>();
+
+        services.AddScoped<GetVolunteersWithPaginationHandler>();
         
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         

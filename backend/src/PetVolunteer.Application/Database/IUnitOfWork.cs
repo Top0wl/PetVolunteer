@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace PetVolunteer.Application;
+namespace PetVolunteer.Application.Database;
 
 public interface IUnitOfWork
 {

@@ -1,3 +1,3 @@
-namespace PetVolunteer.Application.Volunteer.AddPet;
+namespace PetVolunteer.Application.DTOs;
 
 public record UploadFileDto(Stream Stream, string FileName);

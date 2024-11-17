@@ -2,7 +2,7 @@ using FluentValidation;
 using PetVolunteer.Application.Validation;
 using PetVolunteer.Domain.Shared;
 
-namespace PetVolunteer.Application.Volunteer.AddPet;
+namespace PetVolunteer.Application.DTOs.Validators;
 
 public class UploadFileDtoValidator : AbstractValidator<UploadFileDto>
 {

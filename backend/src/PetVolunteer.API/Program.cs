@@ -4,8 +4,6 @@ using PetVolunteer.API.Extensions;
 using PetVolunteer.API.Middlewares;
 using PetVolunteer.API.Validation;
 using PetVolunteer.Application;
-using PetVolunteer.Application.Volunteer;
-using PetVolunteer.Application.Volunteer.CreateVolunteer;
 using PetVolunteer.Infrastructure;
 using PetVolunteer.Infrastructure.Repositories;
 using Serilog;

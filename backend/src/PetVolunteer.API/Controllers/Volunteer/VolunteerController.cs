@@ -1,24 +1,36 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using PetVolunteer.API.Contracts;
-using PetVolunteer.API.Controllers.Requests;
+using PetVolunteer.API.Controllers.Volunteer.Requests;
 using PetVolunteer.API.Extensions;
 using PetVolunteer.API.Processors;
 using PetVolunteer.API.Response;
-using PetVolunteer.Application.DTOs;
-using PetVolunteer.Application.Volunteer.AddPet;
-using PetVolunteer.Application.Volunteer.CreateVolunteer;
-using PetVolunteer.Application.Volunteer.Detele;
-using PetVolunteer.Application.Volunteer.UpdateMainInfo;
-using PetVolunteer.Application.Volunteer.UpdateRequisites;
-using PetVolunteer.Application.Volunteer.UpdateSocialMedia;
+using PetVolunteer.Application.VolunteerManagement.Commands.AddPet;
+using PetVolunteer.Application.VolunteerManagement.Commands.CreateVolunteer;
+using PetVolunteer.Application.VolunteerManagement.Commands.Detele;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateMainInfo;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateRequisites;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateSocialMedia;
+using PetVolunteer.Application.VolunteerManagement.Commands.UploadFilesToPet;
+using PetVolunteer.Application.VolunteerManagement.Queries.GetVolunteersWithPagination;
 
-namespace PetVolunteer.API.Controllers;
+namespace PetVolunteer.API.Controllers.Volunteer;
 
 [ApiController]
 [Route("[controller]")]
-public class VolunteerController : ControllerBase
+public class VolunteerController : ApplicationController
 {
+    [HttpGet]
+    public async Task<IActionResult> Get(
+        [FromQuery] GetVolunteersWithPaginationRequest request,
+        [FromServices] GetVolunteersWithPaginationHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var query = request.ToQuery();
+        
+        var response = await handler.Handle(query, cancellationToken);
+        
+        return Ok(response);
+    }
+    
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(
         [FromServices] CreateVolunteerHandler handler,

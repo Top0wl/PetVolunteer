@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using PetVolunteer.Application.Messaging;
 using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Infrastructure.MessageQueues;

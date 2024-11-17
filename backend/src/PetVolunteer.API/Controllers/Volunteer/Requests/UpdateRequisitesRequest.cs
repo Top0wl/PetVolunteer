@@ -1,7 +1,7 @@
 using PetVolunteer.Application.DTOs;
-using PetVolunteer.Application.Volunteer.UpdateRequisites;
+using PetVolunteer.Application.VolunteerManagement.Commands.UpdateRequisites;
 
-namespace PetVolunteer.API.Controllers.Requests;
+namespace PetVolunteer.API.Controllers.Volunteer.Requests;
 
 public record UpdateRequisitesRequest(IEnumerable<RequisiteDto> Requisites)
 {

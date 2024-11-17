@@ -1,18 +1,19 @@
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetVolunteer.Application.Database;
-using PetVolunteer.Application.Volunteer;
+using PetVolunteer.Application.VolunteerManagement;
 using PetVolunteer.Domain.PetManagement.Volunteer.Entities;
 using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.Shared;
+using PetVolunteer.Infrastructure.DbContexts;
 
 namespace PetVolunteer.Infrastructure.Repositories;
 
 public class VolunteerRepository : IVolunteerRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
     
-    public VolunteerRepository(ApplicationDbContext dbContext)
+    public VolunteerRepository(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -58,6 +59,7 @@ public class VolunteerRepository : IVolunteerRepository
     public async Task<Result<Volunteer, Error>> GetByEmail(Email email)
     {
         var volunteer = await _dbContext.Volunteers
+            .Include(v => v.Pets)
             .FirstOrDefaultAsync(v => v.Email == email);
 
         if (volunteer is null)
