@@ -10,20 +10,13 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
         builder.ToTable("volunteers");
-        
+
         builder.HasKey(v => v.Id);
         builder.Property(v => v.Id)
             .HasConversion(
                 id => id.Value,
                 value => VolunteerId.Create(value));
 
-        /*
-         builder.Property(v => v.SocialMediaList)
-            .HasConversion(
-                list => JsonSerializer.Serialize(list, JsonSerializerOptions.Default),
-                value => JsonSerializer.Deserialize<SocialMediaList>(value, JsonSerializerOptions.Default));
-        */
-        
         builder.ComplexProperty(v => v.FullName, vb =>
         {
             vb.Property(fullName => fullName.FirstName)
@@ -35,7 +28,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             vb.Property(fullName => fullName.Patronymic)
                 .HasColumnName("patronymic");
         });
-        
+
         builder.ComplexProperty(v => v.Email, vb =>
         {
             vb.Property(email => email.Value)
@@ -46,56 +39,84 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         builder.Property(v => v.Description)
             .HasMaxLength(Domain.Shared.Constants.MAX_HIGH_TEXT_LENGTH);
-        
+
         builder.ComplexProperty(v => v.PhoneNumber, vb =>
         {
             vb.Property(number => number.Value)
                 .IsRequired()
                 .HasColumnName("phone_number");
         });
-        
+
         builder.ComplexProperty(v => v.Experience, vb =>
         {
             vb.Property(exp => exp.Value)
                 .IsRequired()
                 .HasColumnName("experience");
         });
-        
-        builder.OwnsOne(p => p.RequisitesList, r =>
-        {
-            r.ToJson("requisites");
-            r.OwnsMany(pr => pr.Requisites, b =>
+
+        builder.OwnsMany(
+            v => v.Requisites,
+            rb =>
             {
-                b.Property(p => p.Title)
+                rb.Property(r => r.Title)
                     .IsRequired()
                     .HasMaxLength(Domain.Shared.Constants.MAX_LOW_TEXT_LENGTH);
-                b.Property(p => p.Description)
+
+                rb.Property(p => p.Description)
                     .IsRequired()
                     .HasMaxLength(Domain.Shared.Constants.MAX_HIGH_TEXT_LENGTH);
+                rb.ToJson("requisites");
             });
-        });
-        
-        builder.OwnsOne(p => p.SocialMediaList, sm =>
-        {
-            sm.ToJson("social_media");
-            sm.OwnsMany(vsm => vsm.SocialMedias, b =>
+
+        builder.OwnsMany(
+            v => v.SocialMedia,
+            smb =>
             {
-                b.Property(p => p.Title)
+                smb.Property(p => p.Title)
                     .IsRequired()
                     .HasMaxLength(Domain.Shared.Constants.MAX_LOW_TEXT_LENGTH);
-                b.Property(p => p.Url)
+                smb.Property(p => p.Url)
                     .IsRequired()
                     .HasMaxLength(Domain.Shared.Constants.MAX_HIGH_TEXT_LENGTH);
+                smb.ToJson("social_media");
             });
-        });
 
         builder.HasMany(v => v.Pets)
             .WithOne()
-            .HasForeignKey("pet_id")
+            .HasForeignKey("volunteer_id")
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_deleted");
     }
 }
+
+/*builder.OwnsOne(v => v.Requisites, r =>
+        {
+            r.ToJson("requisites");
+            r.OwnsMany(rl => rl.Values, brl =>
+            {
+                brl.Property(p => p.Title)
+                    .IsRequired()
+                    .HasMaxLength(Domain.Shared.Constants.MAX_LOW_TEXT_LENGTH);
+                brl.Property(p => p.Description)
+                    .IsRequired()
+                    .HasMaxLength(Domain.Shared.Constants.MAX_HIGH_TEXT_LENGTH);
+            });
+        });
+
+        builder.OwnsOne(v => v.SocialMedia, sm =>
+        {
+            sm.ToJson("social_media");
+            sm.OwnsMany(sml => sml.Values, bsml =>
+            {
+                bsml.Property(p => p.Title)
+                    .IsRequired()
+                    .HasMaxLength(Domain.Shared.Constants.MAX_LOW_TEXT_LENGTH);
+                bsml.Property(p => p.Url)
+                    .IsRequired()
+                    .HasMaxLength(Domain.Shared.Constants.MAX_HIGH_TEXT_LENGTH);
+            });
+        });
+        */

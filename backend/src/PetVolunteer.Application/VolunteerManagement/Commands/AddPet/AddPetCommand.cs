@@ -1,9 +1,10 @@
+using System.Windows.Input;
 using PetVolunteer.Application.DTOs;
 using PetVolunteer.Domain.PetManagement.Volunteer.Enums;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.AddPet;
 
-public record AddPetCommand
+public record AddPetCommand : ICommand
 {
     public Guid VolunteerId { get; set; }
     public Guid SpeciesId { get; set; }

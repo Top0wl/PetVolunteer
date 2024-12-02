@@ -1,5 +1,7 @@
+using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetVolunteer.Application.Abstractions;
 using PetVolunteer.Application.VolunteerManagement.Commands.AddPet;
 using PetVolunteer.Application.VolunteerManagement.Commands.CreateVolunteer;
 using PetVolunteer.Application.VolunteerManagement.Commands.Detele;
@@ -15,18 +17,27 @@ public static class Inject
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<CreateVolunteerHandler>();
-        services.AddScoped<UpdateMainInfoHandler>();
-        services.AddScoped<DeleteVolunteerHandler>();
-        services.AddScoped<UpdateRequisitesHandler>();
-        services.AddScoped<UpdateSocialMediaHandler>();
-        services.AddScoped<AddPetHandler>();
-        services.AddScoped<UploadFilesToPetHandler>();
-
-        services.AddScoped<GetVolunteersWithPaginationHandler>();
-        
-        services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
+        services
+            .AddCommandHandlers()
+            .AddQueryHandlers()
+            .AddValidatorsFromAssembly(typeof(Inject).Assembly);
         
         return services;
+    }
+
+    private static IServiceCollection AddCommandHandlers(this IServiceCollection services)
+    {
+        return services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+            .AddClasses(c => c.AssignableToAny(typeof(ICommandHandler<>), typeof(ICommandHandler<,>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
+    }
+    
+    private static IServiceCollection AddQueryHandlers(this IServiceCollection services)
+    {
+        return services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+            .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
     }
 }

@@ -11,6 +11,9 @@ public class Volunteer : Shared.Entity<VolunteerId>, ISoftDeletable
     #region Private Fields
 
     private readonly List<Pet> _pets = [];
+    private List<Requisite> _requisites = [];
+    private List<SocialMedia> _socialMedia = [];
+    
 
     private bool _isDeleted = false;
 
@@ -23,8 +26,8 @@ public class Volunteer : Shared.Entity<VolunteerId>, ISoftDeletable
     public string Description { get; private set; } = default!;
     public PhoneNumber PhoneNumber { get; private set; } = default!;
     public ExperienceWork Experience { get; private set; } = default!;
-    public RequisitesList? RequisitesList { get; private set; }
-    public SocialMediaList? SocialMediaList { get; private set; }
+    public IReadOnlyList<Requisite> Requisites => _requisites.AsReadOnly();
+    public IReadOnlyList<SocialMedia> SocialMedia => _socialMedia.AsReadOnly();
     public IReadOnlyList<Pet> Pets => _pets;
 
     #endregion Public Fields
@@ -87,14 +90,14 @@ public class Volunteer : Shared.Entity<VolunteerId>, ISoftDeletable
         PhoneNumber = phoneNumber;
     }
 
-    public void UpdateRequisites(RequisitesList requisitesList)
+    public void UpdateRequisites(List<Requisite> requisites)
     {
-        RequisitesList = requisitesList;
+        _requisites = requisites;
     }
 
-    public void UpdateSocialMedia(SocialMediaList socialMediaList)
+    public void UpdateSocialMedia(List<SocialMedia> socialMedia)
     {
-        SocialMediaList = socialMediaList;
+        _socialMedia = socialMedia;
     }
 
     public void Delete()

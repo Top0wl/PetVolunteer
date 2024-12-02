@@ -7,4 +7,4 @@ public record CreateVolunteerCommand(
     string Email,
     string Description,
     string PhoneNumber,
-    int ExperienceOfWork);
+    int ExperienceOfWork) : ICommand;

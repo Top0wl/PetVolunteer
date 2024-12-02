@@ -1,13 +1,14 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetVolunteer.Application.Abstractions;
 using PetVolunteer.Application.Extensions;
 using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.UpdateMainInfo;
 
-public class UpdateMainInfoHandler
+public class UpdateMainInfoHandler : ICommandHandler<Guid, UpdateMainInfoCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly IValidator<UpdateMainInfoCommand> _validator;

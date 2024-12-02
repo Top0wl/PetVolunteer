@@ -1,11 +1,12 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetVolunteer.Application.Abstractions;
 using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 
-public class UpdateSocialMediaHandler
+public class UpdateSocialMediaHandler : ICommandHandler<Guid, UpdateSocialMediaCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<UpdateSocialMediaHandler> _logger;
@@ -16,21 +17,22 @@ public class UpdateSocialMediaHandler
         _logger = logger;
     }
 
-    public async Task<Result<Guid, Error>> Handle(
+    public async Task<Result<Guid, ErrorList>> Handle(
         UpdateSocialMediaCommand command,
         CancellationToken cancellationToken = default)
     {
         //Получаем волонтёра
         var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, cancellationToken);
         if (volunteerResult.IsFailure)
-            return volunteerResult.Error;
+            return volunteerResult.Error.ToErrorList();
         var volunteer = volunteerResult.Value;
 
         //Собираем из request'a соц сети
-        var socialMedia = SocialMediaList
-            .Create(command.SocialMedia
-                .Select(requisite => SocialMedia
-                    .Create(requisite.Title, requisite.Url).Value));
+        var socialMedia = command.SocialMedia
+            .Select(requisite => SocialMedia
+                .Create(requisite.Title, requisite.Url)
+                .Value)
+            .ToList();
 
         volunteer.UpdateSocialMedia(socialMedia);
 

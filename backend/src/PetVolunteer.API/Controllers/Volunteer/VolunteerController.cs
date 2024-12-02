@@ -21,7 +21,7 @@ public class VolunteerController : ApplicationController
     [HttpGet]
     public async Task<IActionResult> Get(
         [FromQuery] GetVolunteersWithPaginationRequest request,
-        [FromServices] GetVolunteersWithPaginationHandler handler,
+        [FromServices] GetVolunteersWithPaginationHandlerDapper handler,
         CancellationToken cancellationToken = default)
     {
         var query = request.ToQuery();

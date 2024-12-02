@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetVolunteer.Application.DTOs;
@@ -15,5 +16,15 @@ public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
         builder.HasMany(v => v.Pets)
             .WithOne()
             .HasForeignKey(p => p.VolunteerId);
+
+        builder.Property(i => i.Requisites)
+            .HasConversion(
+                requisites => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<RequisiteDto[]>(json, JsonSerializerOptions.Default)!);
+        
+        builder.Property(i => i.SocialMedia)
+            .HasConversion(
+                requisites => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<SocialMediaDto[]>(json, JsonSerializerOptions.Default)!);
     }
 }

@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetVolunteer.Application.Abstractions;
 using PetVolunteer.Application.Database;
 using PetVolunteer.Application.Extensions;
 using PetVolunteer.Application.Providers.FileProvider;
@@ -11,24 +12,19 @@ using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.AddPet;
 
-public class AddPetHandler
+public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
 {
-    private const string BUCKET_NAME = "photos";
-    
-    private readonly IFileProvider _fileProvider;
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<AddPetHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<AddPetCommand> _validator;
 
     public AddPetHandler(
-        IFileProvider fileProvider, 
         IVolunteerRepository volunteerRepository, 
         ILogger<AddPetHandler> logger,
         IUnitOfWork unitOfWork, 
         IValidator<AddPetCommand> validator)
     {
-        _fileProvider = fileProvider;
         _volunteerRepository = volunteerRepository;
         _logger = logger;
         _unitOfWork = unitOfWork;

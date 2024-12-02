@@ -74,7 +74,7 @@ namespace PetVolunteer.Infrastructure.Migrations
                     birth_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
-                    pet_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     city = table.Column<string>(type: "text", nullable: false),
                     number_house = table.Column<string>(type: "text", nullable: false),
                     street = table.Column<string>(type: "text", nullable: false),
@@ -84,6 +84,7 @@ namespace PetVolunteer.Infrastructure.Migrations
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     weight = table.Column<double>(type: "double precision", nullable: false),
                     owner_phone_number = table.Column<string>(type: "text", nullable: false),
+                    serial_number = table.Column<int>(type: "integer", nullable: false),
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     photos = table.Column<string>(type: "jsonb", nullable: false),
@@ -93,8 +94,8 @@ namespace PetVolunteer.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_pets", x => x.id);
                     table.ForeignKey(
-                        name: "fk_pets_volunteers_pet_id",
-                        column: x => x.pet_id,
+                        name: "fk_pets_volunteers_volunteer_id",
+                        column: x => x.volunteer_id,
                         principalTable: "volunteers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -106,9 +107,9 @@ namespace PetVolunteer.Infrastructure.Migrations
                 column: "species_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_pets_pet_id",
+                name: "ix_pets_volunteer_id",
                 table: "pets",
-                column: "pet_id");
+                column: "volunteer_id");
         }
 
         /// <inheritdoc />

@@ -7,6 +7,7 @@ public record Requisite
 {
     public string Title { get; } = default!;
     public string Description { get; } = default!;
+
     private Requisite(string title, string description)
     {
         Title = title;

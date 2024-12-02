@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using PetVolunteer.Application.Models;
 
@@ -11,6 +12,9 @@ public static class QueriesExtensions
         int pageSize,
         CancellationToken cancellationToken = default)
     {
+        page = page == 0 ? 1 : page;
+        pageSize = pageSize == 0 ? 100 : page;
+        
         var totalCount = await source.CountAsync(cancellationToken); 
         
         var items = await source
@@ -25,5 +29,13 @@ public static class QueriesExtensions
             PageSize = pageSize,
             TotalCount = totalCount
         };
+    }
+    
+    public static IQueryable<T> WhereIf<T>(
+        this IQueryable<T> source, 
+        bool condition,
+        Expression<Func<T,bool>> predicate)
+    {
+        return condition ? source.Where(predicate) : source;
     }
 }

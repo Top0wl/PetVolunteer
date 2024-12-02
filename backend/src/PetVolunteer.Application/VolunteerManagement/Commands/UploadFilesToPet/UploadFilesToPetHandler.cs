@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetVolunteer.Application.Abstractions;
 using PetVolunteer.Application.Database;
 using PetVolunteer.Application.Extensions;
 using PetVolunteer.Application.Providers.FileProvider;
@@ -9,7 +10,7 @@ using PetVolunteer.Domain.Shared;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.UploadFilesToPet;
 
-public class UploadFilesToPetHandler
+public class UploadFilesToPetHandler : ICommandHandler<Guid, UploadFilesToPetCommand>
 {
     private const string BUCKET_NAME = "photos";
     

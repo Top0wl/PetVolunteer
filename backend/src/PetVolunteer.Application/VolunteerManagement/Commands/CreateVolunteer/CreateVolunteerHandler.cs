@@ -1,12 +1,13 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetVolunteer.Application.Abstractions;
 using PetVolunteer.Domain.PetManagement.Volunteer.ValueObjects;
 using PetVolunteer.Domain.Shared;
 using PetVolunteer.Domain.ValueObjects.ValueObjectId;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.CreateVolunteer;
 
-public class CreateVolunteerHandler
+public class CreateVolunteerHandler : ICommandHandler<Guid, CreateVolunteerCommand>
 {
     private readonly IVolunteerRepository _volunteerRepository;
     private readonly ILogger<CreateVolunteerHandler> _logger;
@@ -17,7 +18,7 @@ public class CreateVolunteerHandler
         _logger = logger;
     }
 
-    public async Task<Result<Guid, Error>> Handle(
+    public async Task<Result<Guid, ErrorList>> Handle(
         CreateVolunteerCommand command,
         CancellationToken cancellationToken = default)
     {
@@ -30,7 +31,7 @@ public class CreateVolunteerHandler
         
         var existVolunteer = await _volunteerRepository.GetByEmail(email);
         if(existVolunteer.IsSuccess)
-            return Errors.Volunteer.EmailIsAlreadyExist();
+            return Errors.Volunteer.EmailIsAlreadyExist().ToErrorList();
         
         var volunteer = new Domain.PetManagement.Volunteer.Entities.Volunteer(
             volunteerId, 

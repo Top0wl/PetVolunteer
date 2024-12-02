@@ -8,9 +8,8 @@ namespace PetVolunteer.Infrastructure.DbContexts;
 
 public class ReadDbContext(IConfiguration configuration) : DbContext, IReadDbContext
 {
-    public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
-    
-    public DbSet<PetDto> Pets => Set<PetDto>();
+    public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>().AsQueryable();
+    public IQueryable<PetDto> Pets => Set<PetDto>().AsQueryable();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
