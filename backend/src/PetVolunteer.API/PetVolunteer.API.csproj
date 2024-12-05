@@ -29,6 +29,7 @@
     <ItemGroup>
       <ProjectReference Include="..\PetVolunteer.Application\PetVolunteer.Application.csproj" />
       <ProjectReference Include="..\PetVolunteer.Domain\PetVolunteer.Domain.csproj" />
+      <ProjectReference Include="..\PetVolunteer.Infrastructure.Authentication\PetVolunteer.Infrastructure.Authentication.csproj" />
       <ProjectReference Include="..\PetVolunteer.Infrastructure\PetVolunteer.Infrastructure.csproj" />
     </ItemGroup>
 

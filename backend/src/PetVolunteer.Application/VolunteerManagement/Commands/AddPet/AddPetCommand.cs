@@ -1,6 +1,7 @@
 using System.Windows.Input;
 using PetVolunteer.Application.DTOs;
 using PetVolunteer.Domain.PetManagement.Volunteer.Enums;
+using ICommand = PetVolunteer.Application.Abstractions.ICommand;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.AddPet;
 

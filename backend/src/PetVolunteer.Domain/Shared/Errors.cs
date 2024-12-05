@@ -30,4 +30,12 @@ public static class Errors
            return Error.Validation($"email.already.exist", $"Email already exist");
         }
     }
+
+    public static class User
+    {
+        public static Error InvalidCredentials()
+        {
+            return Error.Validation("credentials.is.invalid", "Your credentials is invalid");
+        }
+    }
 }

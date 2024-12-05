@@ -1,3 +1,4 @@
+using PetVolunteer.Application.Abstractions;
 using PetVolunteer.Application.DTOs;
 
 namespace PetVolunteer.Application.VolunteerManagement.Commands.CreateVolunteer;

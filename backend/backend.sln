@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetVolunteer.Domain.UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetVolunteer.Application.UnitTests", "..\tests\PetVolunteer.Application.UnitTests\PetVolunteer.Application.UnitTests.csproj", "{BD923AC5-DFBB-4E0D-8573-31D086BB857D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetVolunteer.Infrastructure.Authentication", "src\PetVolunteer.Infrastructure.Authentication\PetVolunteer.Infrastructure.Authentication.csproj", "{45E3DEBA-FC18-4EEF-A62A-FDA3803B81F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{BD923AC5-DFBB-4E0D-8573-31D086BB857D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD923AC5-DFBB-4E0D-8573-31D086BB857D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD923AC5-DFBB-4E0D-8573-31D086BB857D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E3DEBA-FC18-4EEF-A62A-FDA3803B81F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E3DEBA-FC18-4EEF-A62A-FDA3803B81F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E3DEBA-FC18-4EEF-A62A-FDA3803B81F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E3DEBA-FC18-4EEF-A62A-FDA3803B81F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{397B2D52-D2E7-4C9C-ADE6-456CCBF7F41F} = {2F4E52E5-4C8F-45EE-A168-971D86A47285}

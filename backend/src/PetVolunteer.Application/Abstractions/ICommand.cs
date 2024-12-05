@@ -1,3 +1,3 @@
-namespace PetVolunteer.Application.VolunteerManagement.Commands;
+namespace PetVolunteer.Application.Abstractions;
 
 public interface ICommand;

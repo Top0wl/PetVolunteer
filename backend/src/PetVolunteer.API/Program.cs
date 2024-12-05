@@ -1,10 +1,17 @@
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using PetVolunteer.API;
 using PetVolunteer.API.Extensions;
 using PetVolunteer.API.Middlewares;
 using PetVolunteer.API.Validation;
 using PetVolunteer.Application;
 using PetVolunteer.Infrastructure;
+using PetVolunteer.Infrastructure.Authentication;
 using PetVolunteer.Infrastructure.Repositories;
 using Serilog;
 using Serilog.Events;
@@ -23,15 +30,42 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { 
+        Title = "My API", 
+        Version = "v1" 
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+        In = ParameterLocation.Header, 
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey 
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        { 
+            new OpenApiSecurityScheme 
+            { 
+                Reference = new OpenApiReference 
+                { 
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer" 
+                } 
+            },
+            new string[] { } 
+        } 
+    });
+});
 
 builder.Services.AddSerilog();
 
 builder.Services
     .AddInfrastructure(builder.Configuration)
+    .AddJwtAuthentication(builder.Configuration)
     .AddApplication();
+
 
 // builder.Services.AddFluentValidationAutoValidation(configuration =>
 // {
@@ -47,6 +81,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 
     await app.ApplyMigrations();
 }
@@ -55,6 +90,7 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
